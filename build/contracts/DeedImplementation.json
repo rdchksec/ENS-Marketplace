@@ -6374,7 +6374,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-03-08T22:32:09.863Z",
+  "updatedAt": "2019-03-08T23:48:18.496Z",
   "devdoc": {
     "details": "The deed can be controlled only by the registrar and can only send ether back to the owner.",
     "methods": {

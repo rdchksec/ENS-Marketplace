@@ -1,0 +1,25 @@
+{
+  "name": "ens-marketplace",
+  "version": "1.0.0",
+  "description": "ENS secondary marketplace",
+  "main": "truffle.js",
+  "dependencies": {
+    "@ensdomains/ens": "^0.3.4",
+    "openzeppelin-solidity": "github:OpenZeppelin/openzeppelin-solidity#release-v2.2.0",
+    "truffle-hdwallet-provider": "^1.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdchksec/ENS-Marketplace.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rdchksec/ENS-Marketplace/issues"
+  },
+  "homepage": "https://github.com/rdchksec/ENS-Marketplace#readme"
+}

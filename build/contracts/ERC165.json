@@ -1267,7 +1267,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-03-08T23:48:18.475Z",
+  "updatedAt": "2019-03-09T00:42:15.636Z",
   "devdoc": {
     "author": "Matt Condon (@shrugs)",
     "details": "Implements ERC165 using a lookup table.",

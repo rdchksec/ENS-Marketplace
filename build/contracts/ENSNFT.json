@@ -3690,12 +3690,12 @@
     "3": {
       "events": {},
       "links": {},
-      "address": "0x18A666F07aAe4EAE00c24ED9a0E4118Cd344c9Fb",
-      "transactionHash": "0x0eb8f907190390ca4195c1d27c97831bf98c87d8412abd68c03aba45a70c8c54"
+      "address": "0xB22CcaBd3820255FaE611E21b9948Dd784a973dB",
+      "transactionHash": "0x06e445b7374d76633443784021c0dce5c599aa82f41869551e03281b51105451"
     }
   },
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-03-08T23:49:11.802Z",
+  "updatedAt": "2019-03-09T00:42:56.465Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {

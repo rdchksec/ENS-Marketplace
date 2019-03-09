@@ -39746,7 +39746,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-03-08T23:48:18.529Z",
+  "updatedAt": "2019-03-09T00:42:15.628Z",
   "devdoc": {
     "details": "The registrar handles the auction process for each subnode of the node it owns.",
     "methods": {

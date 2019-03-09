@@ -1,6 +1,6 @@
 # ENS-Marketplace
 ENS Marketplace - one stop shop to register, buy and sell ENSDomains utilizing 0x protocol.
-Access the Marketplace - [134.209.87.109](134.209.87.109)
+Access the Marketplace - [134.209.87.109](http://134.209.87.109)
 
 ## Architecture
 In order to sell domain, user converts the ENSDomain to ENSToken (ERC721). After that user creates order to sell ENSToken for specified price.

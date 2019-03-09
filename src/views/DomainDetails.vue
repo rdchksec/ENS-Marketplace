@@ -6,17 +6,24 @@
         </div>
     </b-row>
     <b-row v-if="searching === false">
-        <div v-if="owner && !owner.startsWith('0x00000000000')" class="col-12 col-lg-8 offset-lg-2 my-5 progress-box">
+        <div v-if="domain.owner && !domain.owner.startsWith('0x00000000000')" class="col-12 col-lg-8 offset-lg-2 my-5 progress-box">
             <div>
-                {{ owner }}
-                <b-button v-if="isNFT === false" variant="primary" @click="makeNFT">Turn domain into NFT</b-button>
-                <b-button v-else variant="warning" @click="domainFromNft">Turn NFT into Domain</b-button>
+                
+                <b-button v-if="domain.isNft === false" variant="primary" @click="makeNFT">
+                    <span v-if="domainToNft.loading === false">Turn domain into NFT</span>
+                   <b-spinner variant="light" v-else />
+                </b-button>
+                <b-button v-else variant="warning" @click="domainFromNft">
+                    <span v-if="domainFromNftStatus.loading === false">Turn NFT into Domain</span>
+                                       <b-spinner variant="light" v-else />
+                    </b-button>
             </div>
             <div class="listing-progress">
                 <div class="empty-circle">
 
                 </div>
                 <div>
+                    {{domain.owner }} {{domain.isNft}}
                     1. Transfer Ownership to NFT Contract
                 </div>
             </div>
@@ -38,7 +45,6 @@
             </div>
         </div>
         <div v-else class="col-12 col-lg-8 offset-lg-2 my-5">
-            {{owner}}
             This domain name has not been claimed yet. 
             <b-button variant="success" @click="registerDomain">
                 <span v-if="registering === false">Claim Domain</span>
@@ -60,15 +66,17 @@
 </template>
 
 <script>
-import {owner, register, makeNFT, domainFromNft, isTokenOwner, isNFT} from '@/util/ens'
+import {owner, register, makeNFT, domainFromNft, tokenOwner, isNFT} from '@/util/ens'
 
     export default {
     data () {
         return {
             searching: false,
             error: null,
-            owner: undefined,
-            isNFT: false,
+            domain: {
+                isNft: false,
+                owner: null
+            },
             registering: false,
             registerError: false,
             domainToNft: {
@@ -84,10 +92,8 @@ import {owner, register, makeNFT, domainFromNft, isTokenOwner, isNFT} from '@/ut
     async created () {
         try {
           this.searching = true
-          this.owner = await owner(this.$route.params.name)
-          this.isNFT = await isNFT(this.$route.params.name)
+          this.domain = {...(await this.getDomainInfo())} 
           this.searching = false 
-          // console.log(await isTokenOwner(this.$route.params.name))
         } catch (e) {
             this.searching = false 
             console.log(e)
@@ -96,20 +102,30 @@ import {owner, register, makeNFT, domainFromNft, isTokenOwner, isNFT} from '@/ut
     },
     watch: {
     async '$route' (to, from) {
-                  this.searching = true
-          this.owner = await owner(this.$route.params.name)
-          this.isNFT = await isNFT(this.$route.params.name)
+            this.searching = true
+          this.domain = {...(await this.getDomainInfo())}
           this.searching = false 
-    // Whatever you need to change route
   } 
 },
     methods : {
+        async getDomainInfo () {
+            try {
+                const isNft = await isNFT(this.$route.params.name)
+                const ownerAddress = isNft ? await tokenOwner(this.$route.params.name) : await owner(this.$route.params.name)
+                return {
+                 isNft,
+                 owner: ownerAddress
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        },
         async registerDomain () {
             try {
                 this.registering = true 
                 console.log(this.$route.params.name)
                 await register(this.$route.params.name)
-                this.owner = await owner(this.$route.params.name)
+          this.domain = {...(await this.getDomainInfo())} 
                 this.registering = false 
             } catch (e) {
                 this.registering = true 
@@ -121,6 +137,7 @@ import {owner, register, makeNFT, domainFromNft, isTokenOwner, isNFT} from '@/ut
             try {
                 this.domainToNft.loading = true 
                 await makeNFT(this.$route.params.name)
+                          this.domain = {...(await this.getDomainInfo())} 
                 this.domainToNft.loading = false
             } catch (e) {
                 console.log(e)
@@ -132,6 +149,7 @@ import {owner, register, makeNFT, domainFromNft, isTokenOwner, isNFT} from '@/ut
             try {
                 this.domainFromNftStatus.loading = true 
                 await domainFromNft(this.$route.params.name)
+                          this.domain = {...(await this.getDomainInfo())} 
                 this.domainFromNftStatus.loading = false 
             } catch (e) {
                 this.domainFromNftStatus.loading = false 

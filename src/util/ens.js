@@ -8,7 +8,6 @@ import { solidityKeccak256, keccak256 } from 'ethers/utils'
 import {sha3} from 'web3-utils'
 export const owner = async (domain) => {
     try {
-        console.log(domain)
         const provider = new providers.Web3Provider(window.ethereum)
         const network = (await provider.getNetwork()).chainId
         const ens = new Contract(
@@ -18,7 +17,6 @@ export const owner = async (domain) => {
         ) 
         domain = domain.split('.').reverse()
         domain = domain.map(d => namehash.hash(d))
-        console.log(domain)
         return  (await ens.owner(solidityKeccak256(['bytes32', 'bytes32'], domain)))
     } catch (e) {
         console.log(e)
@@ -68,12 +66,7 @@ export const makeNFT = async (domain) => {
         domain = domain.split('.').reverse()
         domain = domain.map(d => namehash.hash(d))
         tx = await ensnft.mint(solidityKeccak256(['bytes32', 'bytes32'], domain))
-        const erc721 = new Contract(
-            ENSNFT.networks[network].address,
-            ERC721.abi,
-            provider
-        )
-        console.log("NFT MADE", await ownerOf(solidityKeccak256(['bytes32', 'bytes32'], domain)), provider.getSigner().getAddress())
+        await provider.waitForTransaction(tx.hash)
     } catch (e) {
         console.log(e)
         throw Error(e.message)
@@ -89,17 +82,16 @@ export const domainFromNft = async (domain) => {
             ENSNFT.abi,
             provider.getSigner()
         )
-        let ndomain = domain.split('.').reverse()
-        ndomain = ndomain.map(d => namehash.hash(d))
-        let tx = await ensnft.burn(solidityKeccak256(['bytes32', 'bytes32'], ndomain))
+        domain = domain.split('.').reverse()
+        domain = domain.map(d => namehash.hash(d))
+        let tx = await ensnft.burn(solidityKeccak256(['bytes32', 'bytes32'], domain))
         await provider.waitForTransaction(tx.hash)
-        console.log("Do I get my domain back?", await owner(domain), provider.getSigner().getAddress())
     } catch (e) {
         throw Error(e.message)
     }
 }
 
-export const isTokenOwner = async (domain) => {
+export const tokenOwner = async (domain) => {
     const provider = new providers.Web3Provider(window.ethereum) 
     const network = (await provider.getNetwork()).chainId
     const erc721 = new Contract(
@@ -109,7 +101,6 @@ export const isTokenOwner = async (domain) => {
     )
     domain = domain.split('.').reverse()
     domain = domain.map(d => namehash.hash(d))
-    console.log("NFT MADE", await erc721.ownerOf(solidityKeccak256(['bytes32', 'bytes32'], domain)), provider.getSigner().getAddress())
     return (await erc721.ownerOf(solidityKeccak256(['bytes32', 'bytes32'], domain)))
 }
 

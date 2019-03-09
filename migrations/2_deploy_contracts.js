@@ -3,7 +3,7 @@ let _ = '        '
 
 const NFTname = 'ENS MarketPlace'
 const NFTsymbol = 'ENSMP'
-const ropstenRegistrarAddress = '0x112234455C3a32FD11230C42E7Bccd4A84e02010'
+const ropstenRegistrarAddress = '0xc19fd9004b5c9789391679de6d766b981db94610'
 const mainnetRegistrarAddress = '0x6090A6e47849629b7245Dfa1Ca21D94cd15878Ef'
 
 module.exports = (deployer, network, accounts) => {

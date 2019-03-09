@@ -1,18 +1,88 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <b-container fluid>
+    <Network />
+    <Account />
+    <b-row class="hero">
+      <div class="col-12 text-center text-white">
+        <h1>Tokenize and sell your ENS domain</h1>
+        <Search class="my-5 bigSearch" />
+      </div>
+    </b-row>
+    <b-container  class="info">
+      <b-row class="info-content">
+        <div class="col-12 col-lg-4">
+        <h4>
+          Ethereum Name Service 
+        </h4>
+        <p>
+          ENS has similar goals to DNS, the Internet’s Domain Name Service, but has significantly different architecture, due to the capabilities and constraints provided by the Ethereum blockchain. Like DNS, ENS operates on a system of dot-separated hierarchical names called domains, with the owner of a domain having full control over subdomains.
+        </p>
+      </div>
+      <div class="col-12 col-lg-4">
+        <h4>ENS Marketplace</h4>
+        <p>
+          The <strong>ENS Marketplace</strong> is the place to go for ENS names that are expiring or have been put up for auction.
+          Find the perfect ENS domain, or earn money with domains you already own. 
+        </p>
+      </div>
+            <div class="col-12 col-lg-4">
+        <h4>ENS Marketplace</h4>
+        <p>
+          The <strong>ENS Marketplace</strong> is the place to go for ENS names that are expiring or have been put up for auction.
+          Find the perfect ENS domain, or earn money with domains you already own. 
+        </p>
+      </div>
+    </b-row>
+    </b-container>
+  </b-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
+import Network from '@/components/Network'
+import Account from '@/components/Account'
+import Search from '@/components/Search'
 export default {
   name: 'home',
+  async created () {
+    try {
+      await this.$store.dispatch('metamask/getMetamask')
+      setInterval( () => {
+        this.$store.dispatch('metamask/getMetamask')
+      }, 5000)
+    } catch (e) {
+      console.log(e)
+    }
+  },
   components: {
-    HelloWorld
+    Network,
+    Account,
+    Search
+    } 
   }
-}
 </script>
+
+<style scoped lang="scss">
+.bigSearch {
+  height: 50px;
+}
+.hero {
+  height: 60vh;
+    display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  height: 40vh;
+}
+
+.info-content {
+  height:100%;
+  padding-top:7rem;
+    display: flex;
+  align-items: start;
+  justify-content: center;
+}
+</style>

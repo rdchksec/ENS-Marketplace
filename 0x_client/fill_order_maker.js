@@ -1,6 +1,7 @@
 var subproviders_0x = require('@0x/subproviders');
 var web3Wrapper_0x = require('@0x/web3-wrapper');
 var deployed_contract_address_0x = require('@0x/contract-addresses');
+var connect_0x = require('@0x/connect');
 var all_0x = require('0x.js');
 
 var constants = require('./constants.js');
@@ -84,5 +85,14 @@ providerEngine.start();
     const signature = await all_0x.signatureUtils.ecSignHashAsync(new subproviders_0x.MetamaskSubprovider(web3.currentProvider), orderHashHex, maker[0]);
     const signedOrder = { ...order, signature };
     console.log('signed order:', signedOrder);
+    //check if the order is fillable
+    await contractWrappers.exchange.validateOrderFillableOrThrowAsync(signedOrder);
+
+    //Post to a relayer---------------------------------------------------------
+    // Instantiate relayer client pointing to a local server on port 3000
+    const relayerApiUrl = constants.RELAYER_API_URL;
+    const relayerClient = new connect_0x.HttpClient(relayerApiUrl);
+    // Submit the order to the SRA Endpoint
+    await relayerClient.submitOrderAsync(signedOrder, { networkId: 50 });
 
 })();

@@ -4887,6 +4887,90 @@
     "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
   },
   "networks": {
+    "4": {
+      "events": {
+        "0xce0457fe73731f824cc272376169235128c118b49d344817417c6d108d155e82": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "node",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "name": "label",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "owner",
+              "type": "address"
+            }
+          ],
+          "name": "NewOwner",
+          "type": "event",
+          "signature": "0xce0457fe73731f824cc272376169235128c118b49d344817417c6d108d155e82"
+        },
+        "0xd4735d920b0f87494915f556dd9b54c8f309026070caea5c737245152564d266": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "node",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "owner",
+              "type": "address"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event",
+          "signature": "0xd4735d920b0f87494915f556dd9b54c8f309026070caea5c737245152564d266"
+        },
+        "0x335721b01866dc23fbee8b6b2c7b1e14d6f05c28cd35a2c934239f94095602a0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "node",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "resolver",
+              "type": "address"
+            }
+          ],
+          "name": "NewResolver",
+          "type": "event",
+          "signature": "0x335721b01866dc23fbee8b6b2c7b1e14d6f05c28cd35a2c934239f94095602a0"
+        },
+        "0x1d4f9bbfc9cab89d66e1a1562f2233ccbf1308cb4f63de2ead5787adddb8fa68": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "node",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "ttl",
+              "type": "uint64"
+            }
+          ],
+          "name": "NewTTL",
+          "type": "event",
+          "signature": "0x1d4f9bbfc9cab89d66e1a1562f2233ccbf1308cb4f63de2ead5787adddb8fa68"
+        }
+      },
+      "links": {},
+      "address": "0xb4C830ad04B981042ECC56Df8912ccFed39614Cd",
+      "transactionHash": "0xbae2aef7071b4493b72874c8ea553c3cdab33f76e12dc0551256c4dbaeeb9729"
+    },
     "5777": {
       "events": {
         "0xce0457fe73731f824cc272376169235128c118b49d344817417c6d108d155e82": {
@@ -4968,12 +5052,12 @@
         }
       },
       "links": {},
-      "address": "0x3192474569cfa13354aD80406B73F416F1A9f0B4",
-      "transactionHash": "0xcdeb1e3fffcc87fb79731c791681ddb4c4e2735612742086b79c4b337f2cb491"
+      "address": "0x7BABB834BD77390D9F413312f5FFeF98155697df",
+      "transactionHash": "0x92d59212bfcc7772666bcf5bb433df22ec559d2f08501f534c741bad1f43139b"
     }
   },
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-03-09T14:23:04.308Z",
+  "updatedAt": "2019-03-09T18:51:26.783Z",
   "devdoc": {
     "methods": {
       "constructor": {

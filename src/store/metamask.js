@@ -13,13 +13,12 @@ export default {
             const address = (await window.ethereum.enable())[0]
             commit('account', address)
             const provider = new providers.Web3Provider(window.ethereum)
-            commit('network', await provider.getNetwork())
+            commit('network', (await provider.getNetwork()))
             commit('ethBalance', await provider.getBalance(address))
         }
     },
     mutations: {
         account (state, payload) {
-            console.log(payload)
             state.address = payload 
         },
         network (state, payload) {

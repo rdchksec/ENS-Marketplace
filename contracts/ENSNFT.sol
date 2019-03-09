@@ -25,6 +25,6 @@ contract ENSNFT is ERC721Full, Ownable {
     function burn(uint256 tokenId) public {
         require(ownerOf(tokenId) == msg.sender);
         _burn(msg.sender, tokenId);
-        registrar.changeOwner(bytes32(tokenId), msg.sender);
+        ens.setOwner(bytes32(tokenId), msg.sender);
     }
 }

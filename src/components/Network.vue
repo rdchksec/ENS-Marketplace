@@ -1,6 +1,6 @@
 <template>
   <div class="network text-white">
-     Rinkeby
+     {{ network }}
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
   name: 'network',
   computed: {
       network () {
-          return this.$store.state.metamask.network.name
+          return this.$store.state.metamask.network ? this.$store.state.metamask.network.name : 'Unknown'
       }
   }
   }

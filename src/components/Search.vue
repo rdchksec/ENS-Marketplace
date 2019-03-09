@@ -14,32 +14,29 @@
              <b-button @click="search" @keyup.enter="search" variant="warning">SEARCH</b-button>
          </b-input-group-append>
      </b-input-group>
-      <div  v-else>
-          <b-spinner size="xl" variant="light"></b-spinner>
-          <br />
-          <p class="my-3">{{ `Looking up ${searchName}` }}</p>
-      </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
 export default {
   name: 'search',
   data () {
       return {
           searchName: null,
-          searching: false
+          searching: false,
+          error: null
       }
   },
   methods: {
-      search() {
-          this.searching = true
-          setTimeout( () => {
-              this.searching = false
-                this.$router.push(`/domain/${this.searchName}`)
-          }, 3000)
+      async search() {
+          try {
+              this.searching = true
+              this.error = null
+              this.$router.push('/domain/'+ this.searchName)
+          } catch (e) {
+             this.error = e.message 
+          }
       }
   }
   }

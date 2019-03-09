@@ -61,7 +61,8 @@ function deployFIFS(deployer, tld, accounts) {
     await fifs.changeOwner(namehash("myname"), ensnft.address)
     await ensnft.mint(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")]))
     console.log("DO I OWN NFT?", await ensnft.ownerOf(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")])), accounts[0])
-  })
+})
+
 }
 
 

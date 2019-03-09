@@ -1,14 +1,18 @@
 const ENS = artifacts.require("./ENSRegistry.sol");
 const FIFSRegistrar = artifacts.require('./FIFSRegistrar.sol');
+const PublicResolver = artifacts.require('PublicResolver')
+const ReverseRegistrar = artifacts.require('ReverseRegistrar')
+const solidityKeccak = require('ethers').utils.solidityKeccak256
+const keccak = require('ethers').utils.keccak256
 
 // Currently the parameter('./ContractName') is only used to imply
 // the compiled contract JSON file name. So even though `Registrar.sol` is
 // not existed, it's valid to put it here.
 // TODO: align the contract name with the source code file name.
-const Registrar = artifacts.require('./HashRegistrar.sol');
+// const Registrar = artifacts.require('./HashRegistrar.sol');
 const web3 = new (require('web3'))();
 const namehash = require('eth-ens-namehash');
-
+const sha3 = require('web3-utils').sha3
 /**
  * Calculate root node hashes given the top level domain(tld)
  *
@@ -21,57 +25,54 @@ function getRootNodeFromTLD(tld) {
   };
 }
 
-/**
- * Deploy the ENS and FIFSRegistrar
- *
- * @param {Object} deployer truffle deployer helper
- * @param {string} tld tld which the FIFS registrar takes charge of
- */
-function deployFIFSRegistrar(deployer, tld) {
-  var rootNode = getRootNodeFromTLD(tld);
-
-  // Deploy the ENS first
-  deployer.deploy(ENS)
-    .then(() => {
-      // Deploy the FIFSRegistrar and bind it with ENS
-      return deployer.deploy(FIFSRegistrar, ENS.address, rootNode.namehash);
-    })
-    .then(function() {
-      // Transfer the owner of the `rootNode` to the FIFSRegistrar
-      ENS.at(ENS.address).setSubnodeOwner('0x0', rootNode.sha3, FIFSRegistrar.address);
-    });
+function getNodehash(name) {
+  return {
+    namehash: namehash(name),
+    sha3: web3.sha3(name)
+  }
 }
 
-/**
- * Deploy the ENS and HashRegistrar(Simplified)
- *
- * @param {Object} deployer truffle deployer helper
- * @param {string} tld tld which the Hash registrar takes charge of
- */
-function deployAuctionRegistrar(deployer, tld) {
-  var rootNode = getRootNodeFromTLD(tld);
+function deployFIFS(deployer, tld, accounts) {
+  const rootNode  = getRootNodeFromTLD(tld)
 
-  // Deploy the ENS first
-  deployer.deploy(ENS)
-    .then(() => {
-      // Deploy the HashRegistrar and bind it with ENS
-      // The last argument `0` specifies the auction start date to `now`
-      return deployer.deploy(Registrar, ENS.address, rootNode.namehash, 0);
-    })
-    .then(function() {
-      // Transfer the owner of the `rootNode` to the HashRegistrar
-      ENS.at(ENS.address).setSubnodeOwner('0x0', rootNode.sha3, Registrar.address);
-    });
+  deployer.then( async () => {
+    const ens = await deployer.deploy(ENS) 
+    const publicResolver = await PublicResolver.new(ens.address);
+    
+    await ens.setSubnodeOwner("0x0000000000000000000000000000000000000000", sha3("resolver"), accounts[0]);
+    await ens.setResolver(namehash("resolver"), publicResolver.address);
+    await publicResolver.setAddr(namehash("resolver"), publicResolver.address);
+
+    const fifs = await deployer.deploy(FIFSRegistrar, ens.address, namehash("test")) 
+
+    await ens.setSubnodeOwner("0x0000000000000000000000000000000000000000", sha3("test"), accounts[0])
+    await ens.setTTL(namehash("test"), 25000000000)
+    await ens.setSubnodeOwner("0x0000000000000000000000000000000000000000", sha3("test"), fifs.address)
+
+    console.log(await ens.owner(namehash("test")), fifs.address)
+    
+    const reverseRegistrar = await ReverseRegistrar.new(ens.address, publicResolver.address);
+    await ens.setSubnodeOwner("0x0000000000000000000000000000000000000000", sha3("reverse"), accounts[0]);
+    await ens.setSubnodeOwner(namehash("reverse"), sha3("addr"), reverseRegistrar.address);
+      
+    await fifs.register(namehash("myname"),  accounts[0])
+
+    await ens.setResolver(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")]), publicResolver.address)
+    console.log(await ens.resolver(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")])))
+
+    console.log("AM I OWNER?", await ens.owner(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")])), accounts[0])
+
+    await publicResolver.setAddr(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")]), accounts[0])
+    await publicResolver.addr(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")]))
+    
+  })
 }
 
-module.exports = function(deployer, network) {
-  var tld = 'eth';
 
-  if (network === 'dev.fifs') {
-    deployFIFSRegistrar(deployer, tld);
-  }
-  else if (network === 'dev.auction') {
-    deployAuctionRegistrar(deployer, tld);
-  }
+module.exports = function(deployer, network, accounts) {
+  var tld = 'test';
+
+    deployFIFS(deployer, tld, accounts);
+
 
 };

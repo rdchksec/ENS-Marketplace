@@ -17,9 +17,17 @@
                     <span v-if="domainFromNftStatus.loading === false">Turn NFT into Domain</span>
                    <b-spinner variant="light" v-else />
                     </b-button>
-                <b-button variant="primary" v-if="domain.isNft && domain.owner && domain.owner.toLowerCase() === account">
+
+                <b-input-group>
+                    <b-form-input type="number" v-model="sellPrice" placeholder="Enter Price...">
+
+                    </b-form-input>
+                    <b-input-group-append>
+                            <b-button  @click="makeOffer" variant="primary" v-if="domain.isNft && domain.owner && domain.owner.toLowerCase() === account">
                    Sell this domain
                 </b-button>
+                    </b-input-group-append>
+                </b-input-group>
             </div>
             <div class="listing-progress">
                 <div class="empty-circle">
@@ -70,10 +78,11 @@
 
 <script>
 import { owner, register, makeNFT, domainFromNft, tokenOwner, isNFT, ensNFTaddress } from '@/util/ens'
-
+import { makeOffer } from '@/util/marketplace'
 export default {
   data () {
     return {
+      sellPrice: null,
       searching: false,
       error: null,
       domain: {
@@ -118,6 +127,13 @@ export default {
     }
   },
   methods: {
+    async makeOffer () {
+        try {
+            await makeOffer(this.$route.params.name, this.sellPrice)
+        } catch (e) {
+            console.log(e)
+        }
+    },
     async getDomainInfo () {
       try {
         const isNft = await isNFT(this.$route.params.name)

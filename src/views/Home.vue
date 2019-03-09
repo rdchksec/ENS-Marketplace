@@ -42,6 +42,7 @@
 import Network from '@/components/Network'
 import Account from '@/components/Account'
 import Search from '@/components/Search'
+import { makeOffer } from '@/util/marketplace'
 export default {
   name: 'home',
   async created () {

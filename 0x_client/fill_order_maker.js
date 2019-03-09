@@ -13,6 +13,9 @@ const providerEngine = new subproviders_0x.Web3ProviderEngine();
 providerEngine.addProvider(new subproviders_0x.SignerSubprovider(web3.currentProvider));
 // Use an RPC provider to route all other requests
 providerEngine.addProvider(new subproviders_0x.RPCSubprovider('http://localhost:8545'));
+// Use a Metamask subprovider
+//providerEngine.addProvider(new subproviders_0x.MetamaskSubprovider(web3.currentProvider));
+
 providerEngine.start();
 
 
@@ -21,7 +24,7 @@ providerEngine.start();
     // Get all of the accounts through the Web3Wrapper
     const web3Wrapper = new web3Wrapper_0x.Web3Wrapper(providerEngine);
     const accounts = await web3Wrapper.getAvailableAddressesAsync();
-    console.log(accounts);
+    //console.log(accounts);
 
     // Instantiate ContractWrappers with the provider
     const contractWrappers = new all_0x.ContractWrappers(providerEngine, { networkId: 50});
@@ -51,7 +54,7 @@ providerEngine.start();
     );
     await web3Wrapper.awaitTransactionSuccessAsync(makerZRXApprovalTxHash);
 
-    //Create Order---------------------------------------------
+    //Create Order--------------------------------------------------------------
     // Set up the Order and fill it
     const randomExpiration = constants.getRandomFutureDateInSeconds();
     const exchangeAddress = contractAddresses.exchange;
@@ -59,7 +62,7 @@ providerEngine.start();
     // Create the order
     const order = {
         exchangeAddress,
-        makerAddress: maker,
+        makerAddress: maker[0],
         takerAddress: constants.NULL_ADDRESS,
         senderAddress: constants.NULL_ADDRESS,
         feeRecipientAddress: constants.NULL_ADDRESS,
@@ -72,5 +75,14 @@ providerEngine.start();
         makerFee: constants.ZERO,
         takerFee: constants.ZERO,
     };
+    console.log('Maker Order: ', order);
+
+    //Sign the order------------------------------------------------------------
+    // Generate the order hash and sign it
+    const orderHashHex = all_0x.orderHashUtils.getOrderHashHex(order);
+    console.log('Maker Order Hash: ', orderHashHex);
+    const signature = await all_0x.signatureUtils.ecSignHashAsync(providerEngine, orderHashHex, maker[0]);
+    const signedOrder = { ...order, signature };
+    console.log('signed order:', signedOrder);
 
 })();

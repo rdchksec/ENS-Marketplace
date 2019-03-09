@@ -9,8 +9,8 @@ contract FIFSRegistrar {
     ENS ens;
     bytes32 rootNode;
 
-    //Label -> 
-    mapping(bytes32 => address) previousOwners;
+
+    mapping(bytes32 => address) public previousOwners;
 
     modifier only_owner(bytes32 label) {
         address currentOwner = ens.owner(keccak256(abi.encodePacked(rootNode, label)));
@@ -37,8 +37,8 @@ contract FIFSRegistrar {
         ens.setSubnodeOwner(rootNode, label, owner);
     }
 
-    function changeOwner(bytes32 _label, address _newOwner) public only_owner(label) {
-        previousOwners[keccak256(abi.encodedPacked(rootNode, _label))] = msg.sender;
+    function changeOwner(bytes32 _label, address _newOwner) public only_owner(_label) {
+        previousOwners[keccak256(abi.encodePacked(rootNode, _label))] = msg.sender;
         ens.setSubnodeOwner(rootNode, _label, _newOwner);
     }
 

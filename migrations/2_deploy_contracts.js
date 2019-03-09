@@ -2,6 +2,7 @@ const ENS = artifacts.require("./ENSRegistry.sol");
 const FIFSRegistrar = artifacts.require('./FIFSRegistrar.sol');
 const PublicResolver = artifacts.require('PublicResolver')
 const ReverseRegistrar = artifacts.require('ReverseRegistrar')
+const ENSNFT = artifacts.require('ENSNFT')
 const solidityKeccak = require('ethers').utils.solidityKeccak256
 const keccak = require('ethers').utils.keccak256
 
@@ -64,7 +65,10 @@ function deployFIFS(deployer, tld, accounts) {
 
     await publicResolver.setAddr(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")]), accounts[0])
     await publicResolver.addr(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")]))
-    
+    const ensnft = await deployer.deploy(ENSNFT, "myname.test", "MNM", ens.address, fifs.address)
+    await fifs.changeOwner(namehash("myname"), ensnft.address)
+    await ensnft.mint(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")]))
+    console.log("DO I OWN NFT?", await ensnft.ownerOf(solidityKeccak(['bytes32', 'bytes32'], [namehash("test"), namehash("myname")])), accounts[0])
   })
 }
 

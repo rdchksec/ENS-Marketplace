@@ -8,7 +8,8 @@
     <b-row v-if="searching === false">
         <div v-if="domain.owner && !domain.owner.startsWith('0x00000000000')" class="col-12 col-lg-8 offset-lg-2 my-5 progress-box">
             <div>
-                <b-button v-if="domain.isNFT === false" variant="primary" @click="makeNFT">
+                
+                <b-button v-if="domain.isNft === false" variant="primary" @click="makeNFT">
                     <span v-if="domainToNft.loading === false">Turn domain into NFT</span>
                    <b-spinner variant="light" v-else />
                 </b-button>

@@ -22,24 +22,24 @@
 export default {
   name: 'search',
   data () {
-      return {
-          searchName: null,
-          searching: false,
-          error: null
-      }
+    return {
+      searchName: null,
+      searching: false,
+      error: null
+    }
   },
   methods: {
-      async search() {
-          try {
-              this.searching = true
-              this.error = null
-              this.$router.push('/domain/'+ this.searchName)
-          } catch (e) {
-             this.error = e.message 
-          }
+    async search () {
+      try {
+        this.searching = true
+        this.error = null
+        this.$router.push('/domain/' + this.searchName)
+      } catch (e) {
+        this.error = e.message
       }
+    }
   }
-  }
+}
 </script>
 
 <style scoped lang="scss">

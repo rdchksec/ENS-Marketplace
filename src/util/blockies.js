@@ -1,7 +1,7 @@
 // The random number is a js implementation of the Xorshift PRNG
 var randseed = new Array(4) // Xorshift: [x, y, z, w] 32 bit values
 
-function seedrand(seed) {
+function seedrand (seed) {
   for (var i = 0; i < randseed.length; i++) {
     randseed[i] = 0
   }
@@ -10,7 +10,7 @@ function seedrand(seed) {
   }
 }
 
-function rand() {
+function rand () {
   // based on Java's String.hashCode(), expanded to 4 32bit values
   var t = randseed[0] ^ (randseed[0] << 11)
 
@@ -22,19 +22,19 @@ function rand() {
   return (randseed[3] >>> 0) / ((1 << 31) >>> 0)
 }
 
-function createColor() {
-  //saturation is the whole color spectrum
+function createColor () {
+  // saturation is the whole color spectrum
   var h = Math.floor(rand() * 360)
-  //saturation goes from 40 to 100, it avoids greyish colors
+  // saturation goes from 40 to 100, it avoids greyish colors
   var s = ((rand() * 60) + 40) + '%'
-  //lightness can be anything from 0 to 100, but probabilities are a bell curve around 50%
+  // lightness can be anything from 0 to 100, but probabilities are a bell curve around 50%
   var l = ((rand() + rand() + rand() + rand()) * 25) + '%'
 
   var color = 'hsl(' + h + ',' + s + ',' + l + ')'
   return color
 }
 
-function createImageData(size) {
+function createImageData (size) {
   var width = size // Only support square icons for now
   var height = size
 
@@ -61,7 +61,7 @@ function createImageData(size) {
   return data
 }
 
-function buildOpts(opts) {
+function buildOpts (opts) {
   var newOpts = {}
 
   newOpts.seed = opts.seed || Math.floor((Math.random() * Math.pow(10, 16))).toString(16)
@@ -77,7 +77,7 @@ function buildOpts(opts) {
   return newOpts
 }
 
-function renderIcon(opts, canvas) {
+function renderIcon (opts, canvas) {
   var imageData = createImageData(opts.size)
   var width = Math.sqrt(imageData.length)
 
@@ -89,7 +89,6 @@ function renderIcon(opts, canvas) {
   cc.fillStyle = opts.color
 
   for (var i = 0; i < imageData.length; i++) {
-
     // if data is 0, leave the background
     if (imageData[i]) {
       var row = Math.floor(i / width)
@@ -104,7 +103,7 @@ function renderIcon(opts, canvas) {
   return canvas
 }
 
-function createIcon(opts) {
+function createIcon (opts) {
   opts = buildOpts(opts || {})
   var canvas = document.createElement('canvas')
 

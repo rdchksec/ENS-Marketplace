@@ -17,7 +17,7 @@
           </b-navbar-nav>
       </b-collapse>
       </b-navbar>
-      
+
     <router-view/>
   </div>
 </template>
@@ -29,9 +29,9 @@
 <script>
 import Search from '@/components/Search'
 export default {
-    name: 'default',
-    components: {
-        Search
-    }
+  name: 'default',
+  components: {
+    Search
+  }
 }
 </script>

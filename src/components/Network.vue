@@ -10,11 +10,11 @@
 export default {
   name: 'network',
   computed: {
-      network () {
-          return this.$store.state.metamask.network ? this.$store.state.metamask.network.name : 'Unknown'
-      }
+    network () {
+      return this.$store.state.metamask.network ? this.$store.state.metamask.network.name : 'Unknown'
+    }
   }
-  }
+}
 </script>
 
 <style scoped lang="scss">

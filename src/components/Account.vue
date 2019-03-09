@@ -12,14 +12,14 @@
 export default {
   name: 'network',
   computed: {
-     address () {
-          return this.$store.state.metamask.address
-      },
-      balance () {
-          return this.$store.state.metamask.ethBalance
-      }
+    address () {
+      return this.$store.state.metamask.address
+    },
+    balance () {
+      return this.$store.state.metamask.ethBalance
+    }
   }
-  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -30,8 +30,8 @@ export default {
     position: absolute;
     top: 15px;
     right: 15px;
-    border: 1px solid white;    
-    padding: 5px; 
+    border: 1px solid white;
+    padding: 5px;
 }
 
 .account .avatar {

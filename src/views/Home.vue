@@ -12,7 +12,7 @@
       <b-row class="info-content">
         <div class="col-12 col-lg-4">
         <h4>
-          Ethereum Name Service 
+          Ethereum Name Service
         </h4>
         <p>
           ENS has similar goals to DNS, the Internet’s Domain Name Service, but has significantly different architecture, due to the capabilities and constraints provided by the Ethereum blockchain. Like DNS, ENS operates on a system of dot-separated hierarchical names called domains, with the owner of a domain having full control over subdomains.
@@ -28,7 +28,7 @@
         <h4>ENS Marketplace</h4>
         <p>
           The <strong>ENS Marketplace</strong> is the place to go for ENS names that are expiring or have been put up for auction.
-          Find the perfect ENS domain, or earn money with domains you already own. 
+          Find the perfect ENS domain, or earn money with domains you already own.
         </p>
       </div>
     </b-row>
@@ -47,7 +47,7 @@ export default {
   async created () {
     try {
       await this.$store.dispatch('metamask/getMetamask')
-      setInterval( () => {
+      setInterval(() => {
         this.$store.dispatch('metamask/getMetamask')
       }, 5000)
     } catch (e) {
@@ -58,8 +58,8 @@ export default {
     Network,
     Account,
     Search
-    } 
   }
+}
 </script>
 
 <style scoped lang="scss">

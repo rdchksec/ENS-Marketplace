@@ -15,7 +15,7 @@ export default new Router({
       path: '/domain/:name',
       component: () => import('./layouts/default.vue'),
       children: [
-        {path: '/', component: () => import('@/views/DomainDetails.vue')}
+        { path: '/', component: () => import('@/views/DomainDetails.vue') }
       ]
     }
   ]

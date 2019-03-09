@@ -5,7 +5,7 @@ import metamask from './metamask'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    modules: {
-      metamask
-    }
-  })
+  modules: {
+    metamask
+  }
+})

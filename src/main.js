@@ -4,9 +4,9 @@ import router from './router'
 import store from './store/'
 import BootstrapVue from 'bootstrap-vue'
 import '@/assets/_custom.scss'
-import blockies from '@/util/blockies' 
+import blockies from '@/util/blockies'
 
-Vue.prototype.$blockies = blockies 
+Vue.prototype.$blockies = blockies
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false

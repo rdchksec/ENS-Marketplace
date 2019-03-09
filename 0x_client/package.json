@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "browserify fill_order_maker.js > bundle.js && http-server"
+    "maker": "browserify fill_order_maker.js > bundle_maker.js && http-server",
+    "taker": "browserify fill_order_taker.js > bundle_taker.js && http-server"
   },
   "author": "",
   "license": "ISC",

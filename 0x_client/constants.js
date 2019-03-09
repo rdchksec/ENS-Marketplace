@@ -23,6 +23,8 @@ config.GANACHE_RPC_URL = 'http://localhost:8545';
 
 config.RELAYER_API_URL = 'http://localhost:3000/v2';
 
+config.TX_DEFAULTS = { gas: 400000 };
+
 /**
  * Returns an amount of seconds that is greater than the amount of seconds since epoch.
  */

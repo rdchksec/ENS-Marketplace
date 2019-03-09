@@ -13,7 +13,7 @@ const providerEngine = new subproviders_0x.Web3ProviderEngine();
 // All account based and signing requests will go through the SignerSubprovider
 providerEngine.addProvider(new subproviders_0x.SignerSubprovider(web3.currentProvider));
 // Use an RPC provider to route all other requests
-providerEngine.addProvider(new subproviders_0x.RPCSubprovider('http://localhost:8545'));
+providerEngine.addProvider(new subproviders_0x.RPCSubprovider(constants.GANACHE_RPC_URL));
 // Use a Metamask subprovider
 //providerEngine.addProvider(new subproviders_0x.MetamaskSubprovider(web3.currentProvider));
 
@@ -28,13 +28,13 @@ providerEngine.start();
     //console.log(accounts);
 
     // Instantiate ContractWrappers with the provider
-    const contractWrappers = new all_0x.ContractWrappers(providerEngine, { networkId: 50});
+    const contractWrappers = new all_0x.ContractWrappers(providerEngine, { networkId: constants.GANACHE_NETWORK_ID});
     //Get Maker address
     const maker = await web3Wrapper.getAvailableAddressesAsync();
     console.log('Maker Address:', maker);
 
     // Token Addresses------------------------------------
-    const contractAddresses = deployed_contract_address_0x.getContractAddressesForNetworkOrThrow(50);
+    const contractAddresses = deployed_contract_address_0x.getContractAddressesForNetworkOrThrow(constants.GANACHE_NETWORK_ID);
     const zrxTokenAddress = contractAddresses.zrxToken;
     const etherTokenAddress = contractAddresses.etherToken;
     const DECIMALS = 18;
@@ -93,6 +93,6 @@ providerEngine.start();
     const relayerApiUrl = constants.RELAYER_API_URL;
     const relayerClient = new connect_0x.HttpClient(relayerApiUrl);
     // Submit the order to the SRA Endpoint
-    await relayerClient.submitOrderAsync(signedOrder, { networkId: 50 });
+    await relayerClient.submitOrderAsync(signedOrder, { networkId: constants.GANACHE_NETWORK_ID });
 
 })();

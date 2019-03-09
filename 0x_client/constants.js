@@ -19,6 +19,8 @@ config.KOVAN_NETWORK_ID = 42;
 config.ROPSTEN_NETWORK_ID = 3;
 config.RINKEBY_NETWORK_ID = 4;
 
+config.GANACHE_RPC_URL = 'http://localhost:8545';
+
 config.RELAYER_API_URL = 'http://localhost:3000/v2';
 
 /**

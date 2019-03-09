@@ -18,6 +18,7 @@ contract ENSNFT is ERC721Full, Ownable {
 
     function mint(bytes32 _node) public {
         require(ens.owner(_node) == address(this));
+        require(registrar.previousOWners[_nodes] == msg.sender);
         uint256 tokenId = uint256(_node);
         _mint(msg.sender, tokenId);
     }

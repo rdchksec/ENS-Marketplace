@@ -37,10 +37,16 @@ providerEngine.start();
     const contractAddresses = deployed_contract_address_0x.getContractAddressesForNetworkOrThrow(constants.GANACHE_NETWORK_ID);
     const zrxTokenAddress = contractAddresses.zrxToken;
     const etherTokenAddress = contractAddresses.etherToken;
+    const erc721TokenAddress = '0x07f96aa816c1f244cbc6ef114bb2b023ba54a2eb'; // In ganache
     const DECIMALS = 18;
 
+    // Generate TokenID
+    // Generate a random token id
+    const tokenId = 1;//all_0x.generatePseudoRandomSalt();
+
     //Create asset data---------------------------------------------------------
-    const makerAssetData = all_0x.assetDataUtils.encodeERC20AssetData(zrxTokenAddress);
+    //const makerAssetData = all_0x.assetDataUtils.encodeERC20AssetData(zrxTokenAddress);
+    const makerAssetData = all_0x.assetDataUtils.encodeERC721AssetData(erc721TokenAddress, tokenId);
     const takerAssetData = all_0x.assetDataUtils.encodeERC20AssetData(etherTokenAddress);
 
     // Set Allowances-----------------------------------------------------------

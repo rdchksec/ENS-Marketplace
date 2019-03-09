@@ -23,6 +23,7 @@
 
                 </div>
                 <div>
+                    {{domain.owner }} {{domain.isNft}}
                     1. Transfer Ownership to NFT Contract
                 </div>
             </div>
@@ -124,7 +125,7 @@ import {owner, register, makeNFT, domainFromNft, tokenOwner, isNFT} from '@/util
                 this.registering = true 
                 console.log(this.$route.params.name)
                 await register(this.$route.params.name)
-                this.domain.owner = await owner(this.$route.params.name)
+          this.domain = {...(await this.getDomainInfo())} 
                 this.registering = false 
             } catch (e) {
                 this.registering = true 
@@ -136,6 +137,7 @@ import {owner, register, makeNFT, domainFromNft, tokenOwner, isNFT} from '@/util
             try {
                 this.domainToNft.loading = true 
                 await makeNFT(this.$route.params.name)
+                          this.domain = {...(await this.getDomainInfo())} 
                 this.domainToNft.loading = false
             } catch (e) {
                 console.log(e)
@@ -147,6 +149,7 @@ import {owner, register, makeNFT, domainFromNft, tokenOwner, isNFT} from '@/util
             try {
                 this.domainFromNftStatus.loading = true 
                 await domainFromNft(this.$route.params.name)
+                          this.domain = {...(await this.getDomainInfo())} 
                 this.domainFromNftStatus.loading = false 
             } catch (e) {
                 this.domainFromNftStatus.loading = false 

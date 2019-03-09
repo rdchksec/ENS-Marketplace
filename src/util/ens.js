@@ -8,7 +8,6 @@ import { solidityKeccak256, keccak256 } from 'ethers/utils'
 import {sha3} from 'web3-utils'
 export const owner = async (domain) => {
     try {
-        console.log(domain)
         const provider = new providers.Web3Provider(window.ethereum)
         const network = (await provider.getNetwork()).chainId
         const ens = new Contract(
@@ -18,7 +17,6 @@ export const owner = async (domain) => {
         ) 
         domain = domain.split('.').reverse()
         domain = domain.map(d => namehash.hash(d))
-        console.log(domain)
         return  (await ens.owner(solidityKeccak256(['bytes32', 'bytes32'], domain)))
     } catch (e) {
         console.log(e)

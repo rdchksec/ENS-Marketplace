@@ -36,7 +36,7 @@ export const makeOffer = async (domain, price) => {
     const DECIMALS = 18 
 
     //Create asset data 
-    const makerAssetData = zerox.assetDataUtils.encodeERC721AssetData(erc721token, domain)
+    const makerAssetData = zerox.assetDataUtils.encodeERC721AssetData(erc721token, new zerox.BigNumber(domain))
     const takerAssetData = zerox.assetDataUtils.encodeERC20AssetData(wetherToken)
     const makerAssetAmount = new zerox.BigNumber(1) 
     const takerAssetAmount = new zerox.BigNumber(price)

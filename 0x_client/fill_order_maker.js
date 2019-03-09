@@ -81,7 +81,7 @@ providerEngine.start();
     // Generate the order hash and sign it
     const orderHashHex = all_0x.orderHashUtils.getOrderHashHex(order);
     console.log('Maker Order Hash: ', orderHashHex);
-    const signature = await all_0x.signatureUtils.ecSignHashAsync(providerEngine, orderHashHex, maker[0]);
+    const signature = await all_0x.signatureUtils.ecSignHashAsync(new subproviders_0x.MetamaskSubprovider(web3.currentProvider), orderHashHex, maker[0]);
     const signedOrder = { ...order, signature };
     console.log('signed order:', signedOrder);
 

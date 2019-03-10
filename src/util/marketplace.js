@@ -47,6 +47,7 @@ export const makeOffer = async (domain, price) => {
         maker,
         true
     )
+    await web3Wrapper.awaitTransactionSuccessAsync(makerApprovalTx)
 
     console.log("Maker approval txHash: ", makerApprovalTx)
 
@@ -83,7 +84,6 @@ export const makeOffer = async (domain, price) => {
     const relayerClient = new connect.HttpClient(relayerApiUrl)
 
     let orderSubmission = await relayerClient.submitOrderAsync(signedOrder, {networkId: 4})
-    console.log(orderSubmission)
 }
 
 export const takeOffer = async domain => {

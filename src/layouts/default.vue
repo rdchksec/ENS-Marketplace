@@ -2,18 +2,13 @@
   <div>
       <b-navbar toggleable="lg" type="dark" variant="danger">
           <b-navbar-brand @click="$router.push('/')" href="#">
-            Sell.Eth
+            ENS Marketplace
           </b-navbar-brand>
           <b-navbar-toggle target="nav-collapse" />
       <b-collapse is-nav id="nav_collapse">
           <Search/>
           <b-navbar-nav>
-              <b-nav-item>
-                  Dashboard
-              </b-nav-item>
-             <b-nav-item>
-                  Marketplace
-              </b-nav-item>
+ 
           </b-navbar-nav>
       </b-collapse>
       </b-navbar>

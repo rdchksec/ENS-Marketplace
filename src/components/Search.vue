@@ -31,7 +31,6 @@ export default {
   methods: {
     async search () {
       try {
-        this.searching = true
         this.error = null
         this.$router.push('/domain/' + this.searchName)
       } catch (e) {

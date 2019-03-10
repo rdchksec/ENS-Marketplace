@@ -21,13 +21,13 @@
       <div class="col-12 col-lg-4">
         <h4>Non-Fungible Tokens</h4>
         <p>
-          Non-fungible tokens are used to create verifiable digital scarcity. NFTs are used in several specific applications that require unique digital items like crypto-collectibles and crypto-gaming. Popular blockchain games like CryptoKitties make use of non-fungible tokens on the Ethereum blockchain.[2] NFTs are used to represent in-game assets, which are in control of the user instead of the game developer. NFTs also find potential use in digital art, by helping prove authenticity and ownership.
+          Non-fungible tokens are used to create verifiable digital scarcity. NFTs are used in several specific applications that require unique digital items like crypto-collectibles and crypto-gaming. NFTs also find potential use in digital art, by helping prove authenticity and ownership.
         </p>
       </div>
             <div class="col-12 col-lg-4">
         <h4>ENS Marketplace</h4>
         <p>
-          The <strong>ENS Marketplace</strong> is the place to go for ENS names that are expiring or have been put up for auction.
+          The ENS Marketplace is the place to go for ENS names that are expiring or have been put up for auction.
           Find the perfect ENS domain, or earn money with domains you already own.
         </p>
       </div>

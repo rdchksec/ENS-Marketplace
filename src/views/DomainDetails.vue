@@ -22,12 +22,12 @@
                    <b-spinner variant="light" v-else />
                     </b-button>
 
-                <b-input-group>
+                <b-input-group  v-if="domain.isNft && domain.owner && domain.owner.toLowerCase() === account">
                     <b-form-input type="number" v-model="sellPrice" placeholder="Enter Price...">
 
                     </b-form-input>
                     <b-input-group-append>
-                            <b-button  @click="makeOffer" variant="primary" v-if="domain.isNft && domain.owner && domain.owner.toLowerCase() === account">
+                            <b-button  @click="makeOffer" variant="primary">
                    Sell this domain
                 </b-button>
                     </b-input-group-append>
@@ -116,12 +116,15 @@ export default {
   async created () {
     try {
       this.searching = true
+      if (!this.$store.state.metamask.address)  await this.$store.dispatch('metamask/getMetamask')
       this.domain = { ...(await this.getDomainInfo()) }
       this.ensNftAddress = await ensNFTaddress()
       this.domain.orderbook = await orderbook(this.$route.params.name)
+      this.domain.owner = this.domain.owner.toLowerCase()
       this.domain.forSale = this.domain.orderbook.asks.records.length > 0 
       this.domain.price = this.domain.orderbook.asks.records.length > 0 ? parseFloat(this.domain.orderbook.asks.records[0].order.takerAssetAmount.toString(10)).toFixed(2) : 0
       this.searching = false
+      console.log(this.domain.owner, this.account)
     } catch (e) {
       this.searching = false
       console.log(e)

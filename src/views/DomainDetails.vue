@@ -19,7 +19,7 @@
                   </b-button>
                   <div  v-if="domain.isNft && domain.owner === account" class="text-left">
                     <div v-if="domain.forSale === false">
-                        <p>Plese, specify price to make an selling order for {{ this.$route.params.name }}</p>
+                        <p>Plese, specify price to make an selling order for <strong> {{ this.$route.params.name }} </strong></p>
                     <b-input-group >
                         <b-form-input type="number" v-model="sellPrice" placeholder="Enter Price...">
 

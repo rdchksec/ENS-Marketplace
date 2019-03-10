@@ -4,7 +4,9 @@
     <Account />
     <b-row class="hero">
       <div class="col-12 text-center text-white">
-        <h1>Tokenize and sell your ENS domain</h1>
+        <img src="@/assets/gomommy.png" width="200" height="200" class="my-0" />
+        <h1>GoMommy</h1>
+        <h2>Tokenize and sell your ENS domain</h2>
         <Search class="my-5 bigSearch" />
       </div>
     </b-row>

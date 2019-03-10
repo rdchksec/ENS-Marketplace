@@ -2,7 +2,8 @@
   <div>
       <b-navbar toggleable="lg" type="dark" variant="danger">
           <b-navbar-brand @click="$router.push('/')" href="#">
-            ENS Marketplace
+            <img src="@/assets/gomommy.png" width="50" height="50">
+            GoMommy
           </b-navbar-brand>
           <b-navbar-toggle target="nav-collapse" />
       <b-collapse is-nav id="nav_collapse">

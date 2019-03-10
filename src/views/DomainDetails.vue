@@ -3,6 +3,10 @@
     <b-row>
         <div class="col-12 col-lg-8 offset-lg-2 text-center my-5">
             <h4>{{ this.$route.params.name }}  </h4>
+            <div v-if="domain.forSale">
+                <p>This domain is for sale for {{ domain.price }} ETH ! </p> 
+            <b-button variant="success" @click="takeOffer" size="xl">BUY NOW !</b-button>
+            </div>
         </div>
     </b-row>
     <b-row v-if="searching === false">
@@ -78,7 +82,7 @@
 
 <script>
 import { owner, register, makeNFT, domainFromNft, tokenOwner, isNFT, ensNFTaddress } from '@/util/ens'
-import { makeOffer } from '@/util/marketplace'
+import { makeOffer, takeOffer, orderbook } from '@/util/marketplace'
 export default {
   data () {
     return {
@@ -87,7 +91,9 @@ export default {
       error: null,
       domain: {
         isNft: false,
-        owner: null
+        owner: null,
+        orderbook: [],
+        forSale: false
       },
       registering: false,
       registerError: false,
@@ -112,6 +118,9 @@ export default {
       this.searching = true
       this.domain = { ...(await this.getDomainInfo()) }
       this.ensNftAddress = await ensNFTaddress()
+      this.domain.orderbook = await orderbook(this.$route.params.name)
+      this.domain.forSale = this.domain.orderbook.asks.records.length > 0 
+      this.domain.price = this.domain.orderbook.asks.records.length > 0 ? parseFloat(this.domain.orderbook.asks.records[0].order.takerAssetAmount.toString(10)).toFixed(2) : 0
       this.searching = false
     } catch (e) {
       this.searching = false
@@ -127,6 +136,13 @@ export default {
     }
   },
   methods: {
+    async takeOffer () {
+        try {
+            await takeOffer(this.$route.params.name)
+        } catch (e) {
+            console.log(e)
+        }
+    },
     async makeOffer () {
         try {
             await makeOffer(this.$route.params.name, this.sellPrice)

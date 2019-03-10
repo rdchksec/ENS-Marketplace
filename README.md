@@ -1,6 +1,6 @@
-# GoMommy 
-ENS Marketplace - one stop shop to register, buy and sell ENSDomains utilizing 0x protocol.
-Access the Marketplace - [134.209.87.109](http://134.209.87.109)
+# GoMommy
+ENS Marketplace - one stop shop to register, buy and sell ENSDomains utilizing 0x protocol.Demo video (no sound) - [here](https://drive.google.com/file/d/1h_jI1mPeDgtVcDXJ_J3qq93r2Iry02H5/view)
+Access the Marketplace - [http://134.209.87.109:8080/#](http://134.209.87.109:8080/#)
 
 ![](/public/gomommy.png)
 

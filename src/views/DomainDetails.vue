@@ -159,7 +159,7 @@ export default {
         const ownerAddress = isNft ? await tokenOwner(this.$route.params.name) : await owner(this.$route.params.name)
         return {
           isNft,
-          owner: ownerAddress
+          owner: ownerAddress.toLowerCase()
         }
       } catch (e) {
         console.log(e)

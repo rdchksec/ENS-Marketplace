@@ -20,7 +20,7 @@ config.RINKEBY_NETWORK_ID = 4;
 
 config.GANACHE_RPC_URL = 'http://localhost:8545';
 
-config.RELAYER_API_URL = 'http://localhost:3000/v2';
+config.RELAYER_API_URL = 'http://134.209.87.109:3000/v2';
 
 config.TX_DEFAULTS = { gas: 400000 };
 

@@ -85,3 +85,96 @@ export const makeOffer = async (domain, price) => {
     let orderSubmission = await relayerClient.submitOrderAsync(signedOrder, {networkId: 4})
     console.log(orderSubmission)
 }
+
+export const takeOffer = async domain => {
+    domain = domain.split('.').reverse()
+    domain = domain.map(d => namehash.hash(d))
+    domain = solidityKeccak256(['bytes32', 'bytes32'], domain)
+    const engine = startProvider()
+    const web3Wrapper = new Web3Wrapper.Web3Wrapper(engine) 
+    const contractWrappers = new zerox.ContractWrappers(engine, {networkId: 4 });
+
+    //take address 
+    const taker = (await web3Wrapper.getAvailableAddressesAsync())[0]
+    const contractAddresses = contract_addresses.getContractAddressesForNetworkOrThrow(4)
+    const zrxTokenAddress =  contractAddresses.zrxToken 
+    const wetherToken = contractAddresses.etherToken 
+    const erc721token = ENSNFT.networks[4].address 
+    const DECIMALS = 18 
+
+    // create asset data 
+    const makerAssetData = zerox.assetDataUtils.encodeERC721AssetData(erc721token, new zerox.BigNumber(domain))
+    const takerAssetData = zerox.assetDataUtils.encodeERC20AssetData(wetherToken)
+
+    // Approve ERC20 Token  
+    const wethApprove = await contractWrappers.erc20Token.setUnlimitedProxyAllowanceAsync(
+        wetherToken,
+        taker
+    )
+
+    await web3Wrapper.awaitTransactionSuccessAsync(wethApprove)
+
+    //Query orderbook 
+    const relayerApiUrl = constants.RELAYER_API_URL 
+    const relayerClient = new connect.HttpClient(relayerApiUrl)
+
+    const orderbookRequest = {baseAssetData: makerAssetData, quoteAssetData: takerAssetData }
+
+    const res = await relayerClient.getOrderbookAsync(orderbookRequest, {networkId: 4})
+
+    console.log(res)
+
+    if (res.asks.total === 0 ) {
+        throw new Error('No errors on SRA endpoint')
+    }
+
+    // extract taker asset amount (default: first ask order) 
+    const takerAssetAmount = res.asks.records[0].order.takerAssetAmount
+
+    //mint takerAssetAmount equivalent weth 
+    const takerWethDeposit = await contractWrappers.etherToken.depositAsync(
+      wetherToken,
+      takerAssetAmount,
+      taker  
+    )
+
+    await web3Wrapper.awaitTransactionSuccessAsync(takerWethDeposit)
+
+    // Capture top order for refill 
+    const sraOrder = res.asks.records[0].order 
+    //check if order is fillable 
+    await contractWrappers.exchange.validateFillOrderThrowIfInvalidAsync(sraOrder, takerAssetAmount, taker)
+
+    //submit order to chain 
+    const chaintx = await contractWrappers.exchange.fillOrderAsync(sraOrder, takerAssetAmount, taker)
+
+    await web3Wrapper.awaitTransactionSuccessAsync(chaintx)
+
+    console.log("settlement tx", chaintx)
+}
+
+export const orderbook = async (domain) => {
+    domain = domain.split('.').reverse()
+    domain = domain.map(d => namehash.hash(d))
+    domain = solidityKeccak256(['bytes32', 'bytes32'], domain)
+    domain = new zerox.BigNumber(domain)
+
+    //asset data 
+    const contractAddresses = contract_addresses.getContractAddressesForNetworkOrThrow(4)
+    const wetherToken = contractAddresses.etherToken 
+    const erc721token = ENSNFT.networks[4].address 
+
+    // create asset data 
+    const makerAssetData = zerox.assetDataUtils.encodeERC721AssetData(erc721token, domain)
+    const takerAssetData = zerox.assetDataUtils.encodeERC20AssetData(wetherToken)
+
+     //Query orderbook 
+     const relayerApiUrl = constants.RELAYER_API_URL 
+     const relayerClient = new connect.HttpClient(relayerApiUrl)
+ 
+     const orderbookRequest = {baseAssetData: makerAssetData, quoteAssetData: takerAssetData }
+ 
+     const res = await relayerClient.getOrderbookAsync(orderbookRequest, {networkId: 4})
+    console.log(res)
+    return res
+    }
